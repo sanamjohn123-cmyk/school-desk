@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>School Desk</title><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#1f3a8a"><link rel="apple-touch-icon" href="icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&amp;display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f4ee;--card:#fff;--ink:#16213a;--mute:#5d6783;--line:#dcd8cb;--pri:#1f3a8a;--onpri:#fff;--yel:#f2c230;--ok:#1b7a4b;--bad:#b3261e;--late:#9a6700;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1526;--card:#18203a;--ink:#eef0f7;--mute:#9aa3bf;--line:#2b3556;--pri:#8fa8ff;--onpri:#0f1526;--ok:#5fd39a;--bad:#ff8a80;--late:#f2c230}}
+:root[data-theme="dark"]{--bg:#0f1526;--card:#18203a;--ink:#eef0f7;--mute:#9aa3bf;--line:#2b3556;--pri:#8fa8ff;--onpri:#0f1526;--ok:#5fd39a;--bad:#ff8a80;--late:#f2c230}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 'Atkinson Hyperlegible',system-ui,sans-serif}
+main{max-width:720px;margin:0 auto;padding:16px 16px 40px}
+h1{font-size:26px;margin:4px 0 2px;letter-spacing:-.01em}
+.sub{color:var(--mute);margin:0 0 14px}
+.tabs{display:flex;gap:6px;overflow-x:auto;border-bottom:2px solid var(--line);margin-bottom:16px}
+.tabs button{flex:none;background:none;border:0;border-bottom:4px solid transparent;margin-bottom:-2px;padding:10px 12px;font:inherit;font-weight:700;color:var(--mute);cursor:pointer}
+.tabs button[aria-selected=true]{color:var(--ink);border-color:var(--yel)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--pri);outline-offset:2px}
+.row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.row .n{flex:1;min-width:130px;font-weight:700}.row .n small{display:block;font-weight:400;color:var(--mute)}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:end}
+label{display:flex;flex-direction:column;font-size:14px;color:var(--mute);gap:3px}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:9px 10px;min-width:0}
+textarea{width:100%;min-height:76px;resize:vertical}
+.btn{font:inherit;font-weight:700;background:var(--pri);color:var(--onpri);border:0;border-radius:8px;padding:10px 14px;cursor:pointer}
+.btn.ghost{background:none;color:var(--pri);border:1px solid var(--pri)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{font:inherit;font-weight:700;background:var(--card);color:var(--mute);border:0;padding:8px 12px;min-width:44px;cursor:pointer}
+.seg button.on[data-v=P]{background:var(--ok);color:#fff}.seg button.on[data-v=A]{background:var(--bad);color:#fff}.seg button.on[data-v=L]{background:var(--yel);color:#16213a}
+.sum{display:flex;gap:16px;flex-wrap:wrap;padding:12px 14px;background:var(--card);border:1px solid var(--line);border-radius:10px;margin-bottom:8px}
+.sum b{font-size:22px;display:block;line-height:1.1}.sum span{color:var(--mute);font-size:14px}
+.tag{font-size:14px;font-weight:700}.ok{color:var(--ok)}.bad{color:var(--bad)}
+a.wa{color:var(--pri);font-weight:700;font-size:14px}
+.empty{color:var(--mute);padding:22px 0}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.chips button{font:inherit;font-size:14px;background:var(--card);border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:6px 12px;cursor:pointer}
+#out{white-space:pre-wrap;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin-top:12px;min-height:56px}
+.x{background:none;border:0;color:var(--mute);cursor:pointer;font-size:20px;padding:4px 8px}
+.foot{margin-top:28px;padding-top:14px;border-top:2px solid var(--line);display:flex;gap:8px;flex-wrap:wrap}
+.foot small{width:100%;color:var(--mute)}
+.pb{font:inherit;font-size:14px;font-weight:700;background:none;border:1px solid var(--line);border-radius:8px;padding:4px 8px;color:var(--pri);cursor:pointer}
+.q{position:sticky;top:0;z-index:5;background:var(--card);border:2px solid var(--pri);border-radius:12px;padding:12px 14px;margin-bottom:12px}
+</style></head><body><main>
+<h1>School Desk</h1>
+<p class="sub">Attendance, fees aur parents ka kaam — ek jagah. Data aap ke apne device par save hota hai.</p>
+<div class="tabs" role="tablist" id="tabs"></div>
+<div id="q"></div><section id="view"></section>
+<div class="foot"><small id="st"></small><button class="btn" id="inst" hidden onclick="install()">App install karein</button><button class="btn ghost" onclick="dlData()">Backup data</button><button class="btn ghost" onclick="$('#rf').click()">Restore backup</button><input id="pf" type="file" accept="image/*,application/pdf" multiple hidden onchange="picDone(this)"><input id="rf" type="file" accept=".json" hidden onchange="restore(this.files[0])"><small>iPhone: Share → Add to Home Screen. Data sirf aap ke device par hai.</small></div>
+</main>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let S={students:[],att:{},paid:{},res:[]},persisted=false;
+const idb=()=>new Promise((ok,no)=>{const r=indexedDB.open('schooldesk',1);r.onupgradeneeded=()=>r.result.createObjectStore('kv');r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)});
+const idbGet=async()=>{const d=await idb();return new Promise(ok=>{const q=d.transaction('kv').objectStore('kv').get('S');q.onsuccess=()=>ok(q.result);q.onerror=()=>ok()})};
+const idbSet=async v=>{const d=await idb();return new Promise(ok=>{const t=d.transaction('kv','readwrite');t.objectStore('kv').put(v,'S');t.oncomplete=()=>ok();t.onerror=()=>ok()})};
+const save=()=>{const j=JSON.stringify(S);try{localStorage.setItem('schooldesk',j)}catch(e){}idbSet(JSON.parse(j)).catch(()=>{})};
+async function load(){let a,b;try{a=await idbGet()}catch(e){}try{b=JSON.parse(localStorage.getItem('schooldesk')||'null')}catch(e){}
+ const p=a||b;if(p){S=Object.assign(S,p);S.res=S.res||[];if(!a)save()}
+ try{persisted=!!(navigator.storage&&navigator.storage.persist&&await navigator.storage.persist())}catch(e){}}
+let dip=null;addEventListener('beforeinstallprompt',e=>{e.preventDefault();dip=e;const b=$('#inst');if(b)b.hidden=false});
+function install(){if(dip){dip.prompt();dip=null;$('#inst').hidden=true}}
+const nudge=()=>S.students.length&&(!S.lastBackup||Date.now()-S.lastBackup>6048e5)?`<div class="sum" role="status"><span>Aap ne 7 din se backup nahi liya. Neeche "Backup data" dabayein.</span></div>`:'';
+const today=new Date().toISOString().slice(0,10),thisMonth=today.slice(0,7);
+let tab='att',date=today,month=thisMonth,cls='All',sample=null,busy=false;
+const TABS=[['att','Attendance'],['fee','Fees'],['res','Results'],['ask','Agent'],['stu','Students']];
+const money=n=>'Rs '+Number(n||0).toLocaleString('en-PK');
+const wa=(p,t)=>{let d=String(p||'').replace(/\D/g,'');if(d.startsWith('0'))d='92'+d.slice(1);return d?`https://wa.me/${d}?text=${encodeURIComponent(t)}`:''};
+const classes=()=>['All',...new Set(S.students.map(s=>s.cls).filter(Boolean))];
+const list=()=>S.students.filter(s=>cls==='All'||s.cls===cls);
+function clsSel(){return `<label>Class<select onchange="cls=this.value;draw()">${classes().map(c=>`<option ${c===cls?'selected':''}>${esc(c)}</option>`).join('')}</select></label>`}
+const noStu=`<p class="empty">Abhi koi student nahi hai. "Students" tab mein pehle students add karein.</p>`;
+function draw(){
+ $('#tabs').innerHTML=TABS.map(([k,l])=>`<button role="tab" aria-selected="${k===tab}" onclick="tab='${k}';draw()">${l}</button>`).join('');
+ $('#st').textContent=persisted?'Data is device par mehfooz hai (persistent storage ✓).':'Data save ho raha hai. Backup lete rahein.';
+ $('#view').innerHTML=nudge()+({att:vAtt,fee:vFee,res:vRes,ask:vAsk,stu:vStu})[tab]();
+ if(tab==='ask')bindAsk();
+}
+function vAtt(){
+ const L=list(),d=S.att[date]||{};
+ const c={P:0,A:0,L:0};L.forEach(s=>{if(d[s.id])c[d[s.id]]++});
+ return `<div class="bar"><label>Date<input type="date" value="${date}" onchange="date=this.value;draw()"></label>${clsSel()}
+ <button class="btn ghost" onclick="markAll('P')">Sab present</button><button class="btn" onclick="bulk('att')">Absent sab ko message (${c.A})</button></div>
+ <div class="sum"><div><b class="ok">${c.P}</b><span>Present</span></div><div><b class="bad">${c.A}</b><span>Absent</span></div><div><b>${c.L}</b><span>Late</span></div><div><b>${L.length-c.P-c.A-c.L}</b><span>Baqi</span></div></div>`+
+ (L.length?L.map(s=>{const v=d[s.id];const link=v==='A'?wa(s.phone,`Assalam o Alaikum. Aaj (${date}) ${s.name} school mein absent hai. Khairiyat ho. — School office`):'';
+ return `<div class="row"><div class="n">${esc(s.name)}<small>${esc(s.cls||'')}</small></div>${link?`<a class="wa" target="_blank" rel="noopener" href="${link}">WhatsApp parent</a>`:''}${link?`<button class="pb" onclick="pic('att',${s.id})">📎 Pic</button>`:''}
+ <div class="seg">${['P','A','L'].map(k=>`<button data-v="${k}" class="${v===k?'on':''}" onclick="mark(${s.id},'${k}')" aria-label="${k}">${k}</button>`).join('')}</div></div>`}).join(''):noStu);
+}
+function mark(id,v){(S.att[date]=S.att[date]||{})[id]=S.att[date][id]===v?undefined:v;save();draw()}
+function markAll(v){const d=S.att[date]=S.att[date]||{};list().forEach(s=>d[s.id]=v);save();draw()}
+function vFee(){
+ const L=list(),p=S.paid[month]||{};
+ const tot=L.reduce((a,s)=>a+Number(s.fee||0),0),got=L.filter(s=>p[s.id]).reduce((a,s)=>a+Number(s.fee||0),0);
+ return `<div class="bar"><label>Month<input type="month" value="${month}" onchange="month=this.value;draw()"></label>${clsSel()}<button class="btn" onclick="bulk('fee')">Baqi fees walon ko message (${L.filter(s=>!p[s.id]).length})</button></div>
+ <div class="sum"><div><b class="ok">${money(got)}</b><span>Jama</span></div><div><b class="bad">${money(tot-got)}</b><span>Baqi</span></div></div>`+
+ (L.length?L.map(s=>{const ok=p[s.id];const link=!ok?wa(s.phone,`Assalam o Alaikum. ${s.name} ki ${month} ki fees (${money(s.fee)}) abhi baqi hai. Meherbani karke jama karwa dein. Shukriya — School office`):'';
+ return `<div class="row"><div class="n">${esc(s.name)}<small>${esc(s.cls||'')} · ${money(s.fee)}</small></div>
+ ${link?`<a class="wa" target="_blank" rel="noopener" href="${link}">Reminder</a>`:''}${link?`<button class="pb" onclick="pic('fee',${s.id})">📎 Pic</button>`:''}
+ <button class="btn ${ok?'':'ghost'}" onclick="togglePaid(${s.id})">${ok?'Paid ✓':'Mark paid'}</button></div>`}).join(''):noStu);
+}
+function togglePaid(id){const m=S.paid[month]=S.paid[month]||{};m[id]=!m[id];save();draw()}
+const grade=p=>p>=90?'A+':p>=80?'A':p>=70?'B':p>=60?'C':p>=50?'D':'F';
+function tot(r){const o=r.subs.reduce((a,x)=>a+x.o,0),t=r.subs.reduce((a,x)=>a+x.t,0);return{o,t,p:t?Math.round(o/t*1000)/10:0}}
+function txtRes(r,s){const T=tot(r);return `Assalam o Alaikum. ${s.name} ka ${r.exam} ka result:\n`+r.subs.map(x=>`${x.n}: ${x.o}/${x.t}`).join('\n')+`\nKul: ${T.o}/${T.t} (${T.p}%) Grade ${grade(T.p)}\n— School office`}
+function vRes(){
+ const L=list(),R=S.res.filter(r=>L.some(s=>s.id===r.sid)).slice().reverse();
+ return (L.length?`<form onsubmit="addRes(event)"><div class="bar">${clsSel()}</div><div class="bar"><label>Student<select name="s">${L.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('')}</select></label><label>Exam<input name="e" required placeholder="Monthly Test"></label></div>
+ <label>Subjects (har line: Naam obtained/total)<textarea name="m" required placeholder="Math 45/50&#10;Urdu 40/50"></textarea></label><button class="btn" style="margin-top:8px">Result save karein</button></form>`:noStu)+
+ R.map(r=>{const s=S.students.find(x=>x.id===r.sid),T=tot(r),link=wa(s.phone,txtRes(r,s));
+ return `<div class="row"><div class="n">${esc(s.name)} · ${esc(r.exam)}<small>${T.o}/${T.t} · ${T.p}% · Grade ${grade(T.p)}</small></div>
+ ${link?`<a class="wa" target="_blank" rel="noopener" href="${link}">Father ko bhejein</a>`:'<small>phone nahi</small>'}
+ <button class="pb" onclick="pic('res',${s.id},${r.id})">📎 Pic</button><button class="x" aria-label="Delete result" onclick="delRes(${r.id})">×</button></div>`}).join('');
+}
+function addRes(e){e.preventDefault();const f=new FormData(e.target),subs=[];
+ f.get('m').split('\n').forEach(l=>{const m=l.trim().match(/^(.+?)\s+(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)$/);if(m)subs.push({n:m[1],o:+m[2],t:+m[3]})});
+ if(!subs.length){alert('Format: Math 45/50 (har line mein ek subject)');return}
+ S.res.push({id:Date.now(),sid:+f.get('s'),exam:f.get('e').trim(),subs,date:today});save();draw()}
+function delRes(id){if(confirm('Ye result delete karein?')){S.res=S.res.filter(r=>r.id!==id);save();draw()}}
+let pend=null;
+function pic(k,sid,rid){const s=S.students.find(x=>x.id===sid);if(!s)return;
+ const t=k==='att'?`Assalam o Alaikum. Aaj (${date}) ${s.name} school mein absent hai. Khairiyat ho. — School office`:k==='fee'?`Assalam o Alaikum. ${s.name} ki ${month} ki fees (${money(s.fee)}) abhi baqi hai. Meherbani karke jama karwa dein. Shukriya — School office`:txtRes(S.res.find(r=>r.id===rid),s);
+ pend={s,t};$('#pf').click()}
+async function picDone(inp){const fs=[...inp.files];inp.value='';if(!fs.length||!pend)return;const{s,t}=pend;pend=null;
+ try{if(navigator.canShare&&navigator.canShare({files:fs})){await navigator.share({files:fs,text:t});return}}catch(e){if(e&&e.name==='AbortError')return}
+ const l=wa(s.phone,t);if(l)window.open(l,'_blank');alert('Is device par file seedhi attach nahi ho sakti. WhatsApp khul gaya, pic khud attach karein.')}
+let Q=null;
+function bulk(k){let it=[];
+ if(k==='att'){const d=S.att[date]||{};it=list().filter(s=>d[s.id]==='A').map(s=>({s,t:`Assalam o Alaikum. Aaj (${date}) ${s.name} school mein absent hai. Khairiyat ho. — School office`}))}
+ else{const p=S.paid[month]||{};it=list().filter(s=>!p[s.id]).map(s=>({s,t:`Assalam o Alaikum. ${s.name} ki ${month} ki fees (${money(s.fee)}) abhi baqi hai. Meherbani karke jama karwa dein. Shukriya — School office`}))}
+ const ok=it.filter(x=>wa(x.s.phone,x.t));
+ if(!ok.length){alert('Koi parent nahi mila jis ka phone number ho.');return}
+ Q={title:k==='att'?'Absent parents':'Fees baqi parents',items:ok,i:0,skip:it.length-ok.length};drawQ()}
+function drawQ(){const el=$('#q');if(!Q){el.innerHTML='';return}
+ if(Q.i>=Q.items.length){el.innerHTML=`<div class="q"><b>Ho gaya ✓</b><div>${Q.items.length} parents ke chat khul chuke hain.${Q.skip?` ${Q.skip} ka phone number nahi tha.`:''}</div><button class="btn" style="margin-top:8px" onclick="Q=null;drawQ()">Band karein</button></div>`;return}
+ const x=Q.items[Q.i];
+ el.innerHTML=`<div class="q"><b>${Q.title}: ${Q.i+1} / ${Q.items.length}</b><div>${esc(x.s.name)} (${esc(x.s.phone)})</div><div class="bar" style="margin:8px 0 4px"><button class="btn" onclick="qGo()">WhatsApp kholein</button><button class="btn ghost" onclick="Q.i++;drawQ()">Skip</button><button class="btn ghost" onclick="Q=null;drawQ()">Band</button></div><small>Chat khule to Send dabayein, phir wapas aa kar agla dabayein.</small></div>`}
+function qGo(){const x=Q.items[Q.i];window.open(wa(x.s.phone,x.t),'_blank');Q.i++;drawQ()}
+function vStu(){
+ return `<form onsubmit="addStu(event)" class="bar">
+ <label>Naam<input name="n" required></label><label>Class<input name="c" size="6" placeholder="5-A"></label>
+ <label>Father ka phone<input name="p" inputmode="tel" placeholder="03xx xxxxxxx"></label>
+ <label>Monthly fee<input name="f" type="number" min="0" style="width:110px"></label><button class="btn">Add student</button></form>`+
+ (S.students.length?S.students.map(s=>`<div class="row"><div class="n">${esc(s.name)}<small>${esc(s.cls||'')} · ${esc(s.phone||'phone nahi')} · ${money(s.fee)} · Is mahine absent: ${absM(s.id)}</small></div><button class="x" aria-label="Edit ${esc(s.name)}" onclick="editStu(${s.id})">✎</button><button class="x" aria-label="Delete ${esc(s.name)}" onclick="delStu(${s.id})">×</button></div>`).join(''):noStu);
+}
+function addStu(e){e.preventDefault();const f=new FormData(e.target);
+ S.students.push({id:Date.now(),name:f.get('n').trim(),cls:f.get('c').trim(),phone:f.get('p').trim(),fee:Number(f.get('f')||0)});save();draw()}
+const absM=id=>Object.keys(S.att).filter(d=>d.startsWith(thisMonth)&&S.att[d][id]==='A').length;
+function editStu(id){const s=S.students.find(x=>x.id===id);if(!s)return;
+ const n=prompt('Naam',s.name);if(n===null)return;const c=prompt('Class',s.cls||'');if(c===null)return;const p=prompt('Parent phone',s.phone||'');if(p===null)return;const f=prompt('Monthly fee',s.fee||0);if(f===null)return;
+ Object.assign(s,{name:n.trim()||s.name,cls:c.trim(),phone:p.trim(),fee:Number(f)||0});save();draw()}
+function delStu(id){if(confirm('Is student ko delete karein? Ye wapas nahi aayega.')){S.students=S.students.filter(s=>s.id!==id);S.res=S.res.filter(r=>r.sid!==id);save();draw()}}
+function vAsk(){
+ return `<p class="sub">Agent aap ke students, attendance aur fees dekh kar parents ke liye messages bana sakta hai.</p>
+ <div id="keybox" hidden class="bar"><label>Gemini API key<input id="k" type="password" value="${esc(S.key||'')}"></label><button class="btn ghost" onclick="S.key=$('#k').value.trim();save();$('#out').textContent='Key save ho gayi.'">Save key</button></div>
+ <textarea id="q" placeholder="Masalan: Aaj jo bachay absent hain un ke parents ko message likho"></textarea>
+ <div class="chips"><button onclick="ask('Aaj jo students absent hain un ke parents ke liye alag alag short message likho, phone number ke saath.')">Absent parents ko message</button>
+ <button onclick="ask('Is mahine jin ki fees baqi hai un ki list aur har parent ke liye polite reminder likho.')">Fee reminders</button>
+ <button onclick="ask('Aaj ki attendance aur fees ka mukhtasar summary do.')">Daily summary</button></div>
+ <button class="btn" id="go" onclick="ask($('#q').value)">Agent se poochein</button><div id="out" aria-live="polite">Jawab yahan aayega.</div>`;
+}
+async function bindAsk(){try{if(!sample&&window.claude)sample=await claude.use('sample')}catch(e){}
+ if(!sample)$('#keybox').hidden=false}
+async function ask(text){
+ if(!text||!text.trim()||busy)return;
+ if(!sample&&!S.key){$('#keybox').hidden=false;$('#out').textContent='Pehle upar Gemini API key save karein.';return}
+ busy=true;$('#go').disabled=true;const out=$('#out');out.textContent='Soch raha hoon...';
+ if(!sample){try{out.textContent=await gem(text)}catch(e){out.textContent='Gemini error: '+e.message}busy=false;$('#go').disabled=false;return}
+ const rows=(only)=>S.students.filter(only).map(s=>({name:s.name,class:s.cls,phone:s.phone,fee:s.fee}));
+ const tools=[
+  {name:'students',description:'All students with class, parent phone and monthly fee',inputSchema:{type:'object',properties:{}},execute:async()=>rows(()=>true)},
+  {name:'absent_today',description:'Students marked absent today',inputSchema:{type:'object',properties:{}},execute:async()=>rows(s=>(S.att[today]||{})[s.id]==='A')},
+  {name:'unmarked_today',description:'Students whose attendance is not marked today',inputSchema:{type:'object',properties:{}},execute:async()=>rows(s=>!(S.att[today]||{})[s.id])},
+  {name:'fees_pending',description:'Students whose fee for the current month is unpaid',inputSchema:{type:'object',properties:{}},execute:async()=>rows(s=>!(S.paid[thisMonth]||{})[s.id])}];
+ const sys=`You are School Desk, an admin assistant for a school in Pakistan. Today is ${today}, current fee month ${thisMonth}. Use the tools to get real data; never invent students. Reply in the language the user writes (default Roman Urdu). Parent messages must be polite, short, and signed "School office". Be concise.\n\nUser: ${text}`;
+ try{const r=await sample(sys,{tools,cache:false,onText:({text})=>{out.textContent=text}});out.textContent=r.text}
+ catch(e){out.textContent=e&&e.code==='not_granted'?'Permission nahi mili.':'Kuch masla aaya. Dobara koshish karein.'}
+ busy=false;const g=$('#go');if(g)g.disabled=false;
+}
+async function saveFile(name,data,type){
+ try{const d=window.claude&&await claude.use('downloads');if(d){await d.save({filename:name,data});return}}catch(e){if(e&&e.code==='declined')return}
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type}));a.download=name;document.body.appendChild(a);a.click();a.remove();
+}
+function dlData(){S.lastBackup=Date.now();save();draw();saveFile('school-desk-backup-'+today+'.json',JSON.stringify({...S,key:undefined}),'application/json')}
+function restore(f){if(!f)return;const r=new FileReader();r.onload=()=>{try{const j=JSON.parse(r.result);if(!Array.isArray(j.students))throw 0;if(confirm('Maujooda data replace ho jayega. Jari rakhein?')){S=Object.assign({students:[],att:{},paid:{},res:[]},j,{key:S.key});save();draw()}}catch(e){alert('Ye sahi backup file nahi hai.')}};r.readAsText(f)}
+async function gem(text){
+ const ctx=JSON.stringify({today,feeMonth:thisMonth,students:S.students.map(s=>({name:s.name,class:s.cls,phone:s.phone,monthlyFee:s.fee,attendanceToday:(S.att[today]||{})[s.id]||'unmarked',feePaidThisMonth:!!(S.paid[thisMonth]||{})[s.id]}))});
+ const sys='You are School Desk, an admin assistant for a school in Pakistan. Use only the student data given; never invent students. Reply in the language the user writes (default Roman Urdu). Parent messages: polite, short, signed "School office". Attendance codes: P present, A absent, L late. Be concise.';
+ const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key='+encodeURIComponent(S.key),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({systemInstruction:{parts:[{text:sys}]},contents:[{role:'user',parts:[{text:ctx+'\n\n'+text}]}]})});
+ const j=await r.json();if(!r.ok)throw new Error(j.error&&j.error.message||r.status);
+ return j.candidates[0].content.parts.map(p=>p.text||'').join('');
+}
+load().then(draw);
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body></html>
